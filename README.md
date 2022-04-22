@@ -76,6 +76,19 @@ and then lift:
 
 `zcat holi_13_4532226_final.vcf.gz | ~/programs/vcftools/src/perl/fill-aa -a STAR_AA.fasta | bgzip -c > holi13_pictawingei_AA.vcf.gz`
 
+NB for the holi13 datatset (which had 4,532,226 SNPs, 4,298,080 had AA alleles, so 94%) (this is what is in the STAR_AA.fasta)
+
+### Applying this to holi11:
+
+```
+VCF=/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/holi11.SNP.maxmiss50_picta_wingei.vcf
+
+python scripts/writePolarizedVcf_toALT_and_count.py -f $VCF -p1 data/guppy.pop -p2 data/wingei.pop -p3 data/picta.pop 
+
+Number of flipped ancestral alleles:  1,358,374
+
+```
+
 
 
 
