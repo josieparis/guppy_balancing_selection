@@ -30,6 +30,9 @@ Phased vcf for relate (no maf filter): `holi11_vcf_files/phased_vcfs/holi11_maxm
 ## Betascan:
 ### Info on how to run Betascan is detailed in main lab book
 
+I have decided to rerun it on the holi11 vcf file. I also want to mask the variants, as per:
+
+
 - Betascan outputs 
 
 ## allele frequency outputs:
