@@ -44,15 +44,27 @@ This was how it was done:
 
 To lift the AA, I modified emiliano's script so that it outputs the variants to be incorporated into the ALT column. so if they’re REF and AA they move to ALT, if they’re ALT and AA they also move to ALT. Then I added some code to count and output how many have been flipped
 this means the AA allele is now in the ALT column
+
 to run this script:
 
 `module load Python/2.7.14-foss-2018a` (you need scipy) installed in your python environment
 
-`VCF=
+`VCF=/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/holi11.SNP.maxmiss50_picta_wingei.vcf.gz`
 
-python ../scripts/writePolarizedVcf_toALT_and_count.py -f $VCF -p1 guppy.pop -p2 wingei.pop -p3 picta.pop
+NB the vcf file has to be unzipped otherwise you will get the error message:
 
-(where p1 is the focal pop, p2 is the sister and p3 is the outgroup)
+```
+Traceback (most recent call last):
+  File "scripts/writePolarizedVcf_toALT_and_count.py", line 156, in <module>
+    index_sample = header.index(sample)
+NameError: name 'header' is not defined
+```
+
+`cd  ... /STAR_holi_snp_processing/holi11_vcf_files/ancestral_allele_vcfs`
+
+python /scripts/writePolarizedVcf_toALT_and_count.py -f $VCF -p1 data/guppy.pop -p2 data/wingei.pop -p3 data/picta.pop
+
+(where p1 is the focal pop, p2 is the sister and p3 is the outgroup) - for each .pop file one individual per line
 
 this will create a file called $VCF.pol.vcf with the ALT allele as AA, which you can then use for bcftools consensus to make a AA fasta:
 
