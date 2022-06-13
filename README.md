@@ -47,7 +47,7 @@ this means the AA allele is now in the ALT column
 
 to run this script:
 
-`module load Python/2.7.14-foss-2018a` (you need scipy) installed in your python environment
+`module load Python/2.7.15-foss-2018b` (you need scipy) installed in your python environment
 
 `VCF=/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/holi11.SNP.maxmiss50_picta_wingei.vcf.gz`
 
