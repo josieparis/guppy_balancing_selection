@@ -62,7 +62,7 @@ NameError: name 'header' is not defined
 
 `cd  ... /STAR_holi_snp_processing/holi11_vcf_files/ancestral_allele_vcfs`
 
-python2 ../scripts/writePolarizedVcf_toALT_replicateREF.py -f $VCF -p1 data/guppy.pop -p2 data/wingei.pop -p3 data/picta.pop
+`python2 ../scripts/writePolarizedVcf_toALT_replicateREF.py -f $VCF -p1 data/guppy.pop -p2 data/wingei.pop -p3 data/picta.pop`
 
 (where p1 is the focal pop, p2 is the sister and p3 is the outgroup) - for each .pop file one individual per line
 
