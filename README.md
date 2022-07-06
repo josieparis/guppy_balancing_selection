@@ -29,12 +29,12 @@ Phased vcf for fineStructure (no maf filter): `holi11_vcf_files/phased_vcfs/holi
 
 Phased vcf for relate (no maf filter): `holi11_vcf_files/phased_vcfs/holi11_maxmiss50_nomaf`
 
+-----------
+
 ## Betascan:
 NB: Info on how to run Betascan is detailed in main lab book - will copy these lines over for clarity  
 I have decided to rerun it on the holi11 vcf file. I also want to mask the variants, as per the ballermix paper (masking below)
 
----
-## Step 1 
 To use the B2 statistic we need information on the ancestral allele (so we can calculate the derived allele frequency).
 This comes from the picta and wingei data. The picta and wingei data are with holi11 in this vcf file:
 
@@ -173,7 +173,7 @@ Now you can run the vcftools freq option on each of these (asking for the derive
 
 
 
-
+---------------
 ## SNAPP analysis
 wd: `/lustre/home/jrp228/NERC/people/josie/NFDS_analysis/SNAPP`
 
