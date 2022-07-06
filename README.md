@@ -164,10 +164,22 @@ Now fill the tags with bcftools:
 
 `bcftools +fill-tags $VCF_AA.vcf.gz | bgzip -c > ${VCF}_AA.tags.vcf.gz`
 
+NB this will fill the tags for the main VCF file, but if you then split by pop (as below in step 2), the AA tag will disappear again, so you need to add it back in below
+
 #### Step 2:
 Now you need to generate an AA VCF file per population:
 
-`vcftools xyz ...
+`pops=(APHP APLP MHP MLP P GHP GLP TUHP TULP ECHP ECLP)`
+
+this is done in a submission script, e.g.:
+
+`vcftools --gzvcf holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz --keep ./popmaps/APHP.popmap --recode --recode-INFO-all --out APHP.AA`
+
+then bgzip and tabix all the outputs:
+
+=
+
+for pop in ${pops[@]}; do bcftools +fill-tags ${pop}.AA.recode.vcf.gz | bgzip -c > ${pop}.AA.tags.vcf.gz; done
 
 Now you can run the vcftools freq option on each of these (asking for the derived allele):
 
