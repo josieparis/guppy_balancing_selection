@@ -171,7 +171,9 @@ Now you need to generate an AA VCF file per population:
 
 Now you can run the vcftools freq option on each of these (asking for the derived allele):
 
+you have to run these per chromosome as ballermix takes a per chromosome input. Also each chromosome has it's own averaged recombination rate (derived from Jim's Heredity paper)
 
+Note that this will output 
 
 ---------------
 ## SNAPP analysis
