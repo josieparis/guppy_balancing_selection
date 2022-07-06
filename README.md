@@ -177,7 +177,6 @@ this is done in a submission script, e.g.:
 
 then bgzip and tabix all the outputs:
 
-=
 
 for pop in ${pops[@]}; do bcftools +fill-tags ${pop}.AA.recode.vcf.gz | bgzip -c > ${pop}.AA.tags.vcf.gz; done
 
