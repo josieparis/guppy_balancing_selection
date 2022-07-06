@@ -18,12 +18,15 @@ Vcf files for different analyses:
 - PCA: holi11.SNP.maxmiss80.vcf_IDs.vcf (649,984 variants)
 - fineStructure: holi11.SNP.maxmiss80.vcf.gz (phased version - see below)
 - relate: holi11.SNP.maxmiss50.vcf.gz (no maf filter - phased version - see below)
-- popgen stats: holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz (3% maf filter)
+- popgen stats (including Taj D): holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz (3% maf filter)
+- Ballermix: holi11.SNP.maxmiss50_picta_wingei.maf0.03.vcf (3% maf filter)
+- Baypass: holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz
 
 Phased vcfs:
 `/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/phased_vcfs`
 
-Phased vcf for fineStructure (no maf filter): `holi11_vcf_files/phased_vcfs/holi11_maxmiss80_nomaf` 
+Phased vcf for fineStructure (no maf filter): `holi11_vcf_files/phased_vcfs/holi11_maxmiss80_nomaf`
+
 Phased vcf for relate (no maf filter): `holi11_vcf_files/phased_vcfs/holi11_maxmiss50_nomaf`
 
 ## Betascan:
@@ -32,10 +35,13 @@ I have decided to rerun it on the holi11 vcf file. I also want to mask the varia
 
 ---
 ## Step 1 
-To use the B2 statistic we need information on the ancestral allele
+To use the B2 statistic we need information on the ancestral allele (so we can calculate the derived allele frequency).
 This comes from the picta and wingei data. The picta and wingei data are with holi11 in this vcf file:
 
-`holi11.SNP.maxmiss50_picta_wingei.vcf.gz` (16,213,978 variants)
+`holi11.SNP.maxmiss50_picta_wingei.vcf.gz` 
+
+and for the balancing selection scans, I'm using the maf 3% filtered one (see above)
+
 NB: this file has **biallelic** variants (so cannot do multiallelic bal sel scans)
 
 This is how I lifted the AA alleles for the file `/lustre/home/jrp228/startup/STAR/STAR_AA.final.fa` (this was done with the holi13_picta_wingei vcf file so maximum number of samples (across all our studies) was included - this was intended to be a "generic" AA fasta for our other studies.
@@ -111,15 +117,59 @@ NB for the holi13 datatset (which had 4,532,226 SNPs, 4,298,080 had AA alleles, 
 
 ### Applying this to holi11:
 
-```
-VCF=/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/holi11.SNP.maxmiss50_picta_wingei.vcf
+`VCF=/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/holi11.SNP.maxmiss50_picta_wingei.vcf`
 
-python scripts/writePolarizedVcf_toALT_and_count.py -f $VCF -p1 data/guppy.pop -p2 data/wingei.pop -p3 data/picta.pop 
+`python scripts/writePolarizedVcf_toALT_replicateREF.py -f $VCF -p1 data/guppy.pop -p2 data/wingei.pop -p3 data/picta.pop` 
 
-Number of flipped ancestral alleles:  1,358,374
+Number of flipped ancestral alleles:  1,358,374 (so out of 16,213,978, the command flipped 8.4% of alleles)
 
-```
+load BCFtools:
 
+`module load BCFtools/1.9-foss-2018a`
+
+bgzip the pol.vcf:
+
+`bgzip ${VCF}_pol`
+
+tabix:
+
+`tabix ${VCF}_pol.gz`
+
+set the STAR reference genome:
+
+`REF=~/startup/STAR/STAR.chromosomes.release.fasta`
+
+Run bcftools consensus
+
+`bcftools consensus -f $REF ${VCF}_pol.gz -o ${VCF}_AA.fa`
+
+index:
+`samtools faidx $VCF}_AA.fa`
+
+Load the Perl libraries required for fill-aa:
+
+`export PERL5LIB=~/programs/vcftools/src/perl/`
+
+load samtools:
+
+module load SAMtools/1.9-foss-2018b
+
+and then lift:
+
+NB here the $VCF is the original VCF you need to add the AA fields into (not the polarised one)
+
+`zcat $VCF | ~/programs/vcftools/src/perl/fill-aa -a ${VCF}_AA.fasta | bgzip -c > ${VCF}_AA.vcf.gz`
+
+Now fill the tags with bcftools:
+
+`bcftools +fill-tags $VCF_AA.vcf.gz | bgzip -c > ${VCF}_AA.tags.vcf.gz`
+
+#### Step 2:
+Now you need to generate an AA VCF file per population:
+
+`vcftools xyz ...
+
+Now you can run the vcftools freq option on each of these (asking for the derived allele):
 
 
 
