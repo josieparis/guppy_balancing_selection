@@ -3,7 +3,9 @@ Thoughts, scripts etc for NFDS bal sel paper
 
 I am making a new README file to keep all the NFDS information together (out of main lab book). Can also share this with Bonnie.
 
-### Vcf files for analysis:
+---------
+
+### VCF files for analysis:
 
 MASTER directory for SNP calling:
 `/lustre/home/jrp228/startup/STAR_holi_snp_processing`
@@ -177,14 +179,46 @@ this is done in a submission script, e.g.:
 
 then bgzip and tabix all the outputs:
 
+`parallel bgzip {} ::: *.vcf`
 
-for pop in ${pops[@]}; do bcftools +fill-tags ${pop}.AA.recode.vcf.gz | bgzip -c > ${pop}.AA.tags.vcf.gz; done
+`parallel tabix {} ::: *.vcf.gz`
 
-Now you can run the vcftools freq option on each of these (asking for the derived allele):
+fill the tags:
 
-you have to run these per chromosome as ballermix takes a per chromosome input. Also each chromosome has it's own averaged recombination rate (derived from Jim's Heredity paper)
+`for pop in ${pops[@]}; do bcftools +fill-tags ${pop}.AA.recode.vcf.gz | bgzip -c > ${pop}.AA.tags.vcf.gz; done`
 
-Note that this will output 
+Now run the vcftools freq option on each of these (asking for the derived allele) using the script 01_calc_derived_freqs.sh:
+
+```
+## Load modules
+module purge
+module load VCFtools/0.1.16-foss-2018b-Perl-5.28.0
+
+MASTER=/lustre/home/jrp228/NERC/people/josie/NFDS_analysis/ballermix_holi11
+vcf_files=/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/population_vcfs
+freqs=$MASTER/outputs/01_raw_derived_freqs
+
+## Set up the chroms
+#chrs=$(awk '{print $1}' ${reference}.fai | sed "${SLURM_ARRAY_TASK_ID}q;d")
+
+## Set up the pops
+#pops=(APHP APLP MHP MLP P GHP GLP TUHP TULP ECHP ECLP)
+pops=(MLP P GHP GLP TUHP TULP ECHP ECLP)
+
+for pop in ${pops[@]}
+do
+vcftools --gzvcf $vcf_files/${pop}.AA.tags.vcf.gz --chr chr${SLURM_ARRAY_TASK_ID} --freq --derived --out ${freqs}/chr${SLURM_ARRAY_TASK_ID}_${pop}.derived
+done
+```
+
+Concurrently, run easySFS.py to assess the best sample size to use for the spect SFS (column N_CHR in the freqs output).
+
+Note that you have to run these per chromosome as ballermix takes a per chromosome input. Also each chromosome has it's own averaged recombination rate (derived from Jim's Heredity paper)
+
+Note from this post: https://github.com/bioXiaoheng/BalLeRMix/issues/5 that you can use one spectrum file for the whole genome (you don't need one per chromosome), but you need to use the input derived alleles for each chromosome
+
+
+
 
 ---------------
 ## SNAPP analysis
