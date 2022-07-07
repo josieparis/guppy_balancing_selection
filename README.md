@@ -1,5 +1,5 @@
-# NFDS
-Thoughts, scripts etc for NFDS bal sel paper
+# NFDS-paper
+Thoughts, scripts, analysis  for NFDS balancing selection paper
 
 I am making a new README file to keep all the NFDS information together (out of main lab book). Can also share this with Bonnie.
 
@@ -216,6 +216,7 @@ Concurrently, run easySFS.py to assess the best sample size to use for the spect
 Note that you have to run these per chromosome as ballermix takes a per chromosome input. Also each chromosome has it's own averaged recombination rate (derived from Jim's Heredity paper)
 
 Note from this post: https://github.com/bioXiaoheng/BalLeRMix/issues/5 that you can use one spectrum file for the whole genome (you don't need one per chromosome), but you need to use the input derived alleles for each chromosome
+
 
 
 
