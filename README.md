@@ -232,8 +232,17 @@ Note from this post: https://github.com/bioXiaoheng/BalLeRMix/issues/5 that you 
 
 `xargs -i cat '{}' < batch_inputs.txt > holi11_allchrs.50kb.td.out`
 
-NB obviously scaffolds where the stats aren't calculated will give a warning message
+NB obviously scaffolds where the stats aren't calculated will give a warning message.
 
+This also appends all the header lines from each of the data frames, we want to keep one (for the header line) and remove all the others:
+
+`grep "^chrom" holi11_allchrs.50kb.td.out | head -n 1 > header`
+
+`grep -v "^chrom" holi11_allchrs.50kb.td.out > tmp`
+
+`echo $'chrom\twindow\twindow_start\twindow_end\tAPHP\tAPLP\tECHP\tECLP\tGHP\tGLP\tMHP\tMLP\tTUHP\tTULP\tPARIA' | cat - tmp > holi11_allchrs.50kb.td.out`
+
+`rm tmp batch_inputs.txt header`
 
 
 
