@@ -218,6 +218,22 @@ Note that you have to run these per chromosome as ballermix takes a per chromoso
 Note from this post: https://github.com/bioXiaoheng/BalLeRMix/issues/5 that you can use one spectrum file for the whole genome (you don't need one per chromosome), but you need to use the input derived alleles for each chromosome
 
 
+---------------
+## Tajima's D PicMin analysis
+
+- run PicMin on the whole genome, not per chromosome
+- Our popgenome script obviously outputs for each chromosome separately, so first you need to concatenate:
+
+`reference=/lustre/home/jrp228/startup/STAR/STAR.chromosomes.release.fasta`
+
+`chr_array=($(awk '{print $1}' ${reference}.fai))`
+
+`for i in "${chr_array[@]}"; do echo "$i.50kb.td.popgenome.out" >> batch_inputs.txt; done`
+
+`xargs -i cat '{}' < batch_inputs.txt > holi11_allchrs.50kb.td.out`
+
+NB obviously scaffolds where the stats aren't calculated will give a warning message
+
 
 
 
