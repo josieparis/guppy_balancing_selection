@@ -15,14 +15,14 @@ MASTER directory with holi11 vcf files:
 
 This includes the data on APHP, APLP, MHP, MLP, Paria, GHP, GLP, TUHP, TULP, ECHP, ECLP
 
-Vcf files for different analyses:
+VCF files for different analyses:
 
 - PCA: holi11.SNP.maxmiss80.vcf_IDs.vcf (649,984 variants)
 - fineStructure: holi11.SNP.maxmiss80.vcf.gz (phased version - see below)
 - relate: holi11.SNP.maxmiss50.vcf.gz (no maf filter - phased version - see below)
-- popgen stats (including Taj D): holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz (3% maf filter)
-- Ballermix: holi11.SNP.maxmiss50_picta_wingei.maf0.03.vcf (3% maf filter)
-- Baypass: holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz
+- popgen stats (including Taj D): holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz (3% maf filter) - 3,502,712
+- Ballermix: holi11.SNP.maxmiss50_picta_wingei.maf0.03.vcf (3% maf filter, has integrated AA alleles from picta / wingei data (see below)) - 3,378,040
+- Baypass: holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz - 3,502,712
 
 Phased vcfs:
 `/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/phased_vcfs`
@@ -166,9 +166,33 @@ Now fill the tags with bcftools:
 
 `bcftools +fill-tags $VCF_AA.vcf.gz | bgzip -c > ${VCF}_AA.tags.vcf.gz`
 
-NB this will fill the tags for the main VCF file, but if you then split by pop (as below in step 2), the AA tag will disappear again, so you need to add it back in below
+NB this will fill the tags for the main VCF file, but if you then split by pop (as below in step xx), the AA tag will disappear again, so you need to add it back in below
 
-#### Step 2:
+
+#### Step 3: 
+I now want to mask the VCF file: holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz
+
+I will mask for the following:
+1. mappability mask
+2. high / low coverage regions
+3. repeat regions
+
+##### Mappability:
+
+the mappability mask is here: `/lustre/home/jrp228/startup/mappability`
+
+there's a positive fasta (i.e. nucleotides as P pass mappablity, those with N do not): `STAR.mappability_mask.positive.fasta`
+
+the bed file that made this mask is here also: `kmer_intersect_filtered.bed`
+
+So for the VCF file you can use bedtools intersect:
+
+```
+bedtools intersect -a ~/startup/STAR_holi_snp_processing/holi11_vcf_files/holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz -b kmer_intersect_filtered.bed -wa -f 1.0 > test.vcf
+```
+
+
+#### Step 4:
 Now you need to generate an AA VCF file per population:
 
 `pops=(APHP APLP MHP MLP P GHP GLP TUHP TULP ECHP ECLP)`
