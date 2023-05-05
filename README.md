@@ -68,7 +68,7 @@ Traceback (most recent call last):
 NameError: name 'header' is not defined
 ```
 
-`cd  ... /STAR_holi_snp_processing/holi11_vcf_files/ancestral_allele_vcfs`
+`cd  ../STAR_holi_snp_processing/holi11_vcf_files/ancestral_allele_vcfs`
 
 `python2 ../scripts/writePolarizedVcf_toALT_replicateREF.py -f $VCF -p1 data/guppy.pop -p2 data/wingei.pop -p3 data/picta.pop`
 
@@ -146,7 +146,7 @@ Run bcftools consensus
 `bcftools consensus -f $REF ${VCF}_pol.gz -o ${VCF}_AA.fa`
 
 index:
-`samtools faidx $VCF}_AA.fa`
+`samtools faidx ${VCF}_AA.fa`
 
 Load the Perl libraries required for fill-aa:
 
@@ -185,12 +185,97 @@ there's a positive fasta (i.e. nucleotides as P pass mappablity, those with N do
 
 the bed file that made this mask is here also: `kmer_intersect_filtered.bed`
 
-So for the VCF file you can use bedtools intersect:
+Mask with bedtools intersect:
 
 ```
-bedtools intersect -a ~/startup/STAR_holi_snp_processing/holi11_vcf_files/holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz -b kmer_intersect_filtered.bed -wa -f 1.0 > test.vcf
+bedtools intersect -a ~/startup/STAR_holi_snp_processing/holi11_vcf_files/holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz -b kmer_intersect_filtered.bed -wa -f 1.0 > ~/startup/STAR_holi_snp_processing/holi11_vcf_files/tmp.vcf
 ```
 
+3,369,431 SNPs (was 3,378,040 so 8,609 variants removed)
+
+This VCF then needs to be intersected with high repeat regions removed
+##### Repeats:
+
+Are here: 
+`/lustre/home/jrp228/startup/current/all_repeats_count_10kb.bed`
+
+I copied this file to the holi11_vcf folder
+
+geom_density of repeats:
+
+<img width="621" alt="Screenshot 2023-05-05 at 14 08 38" src="https://user-images.githubusercontent.com/38511308/236453796-5f5df05f-dccc-4dc6-b6fa-55abefd4f619.png">
+
+<img width="619" alt="Screenshot 2023-05-05 at 14 08 56" src="https://user-images.githubusercontent.com/38511308/236453835-78c51029-32d8-4664-b3ae-5685e15e92b1.png">
+
+22 used as threshold for high repeat content ...
+
+I filtered the all_repeats_count_10kb.bed file to those over 22 
+
+all_repeats_count_10kb_over22.bed | wc -l # 369 windows
+
+The bedtools reverse intersect on this bed file:
+```bedtools intersect -a tmp.vcf -b all_repeats_count_10kb_over22.bed -v > tmp2.vcf```
+
+get the header:
+
+zgrep "^#" holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz > vcf_header
+
+paste it onto the tmp2 file and rename the VCF
+
+cat vcf_header tmp2.vcf > holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf
+
+3,356,291 SNPs
+
+
+##### Coverage:
+Can be assessed from the VCF file, removing SNPs with coverage lower than and higher than a threshold:
+
+```vcftools --vcf holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf --site-mean-depth --out holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered```
+
+visualise in geom_density:
+
+<img width="623" alt="Screenshot 2023-05-05 at 14 33 06" src="https://user-images.githubusercontent.com/38511308/236458478-9e28f378-0431-41c9-9218-3867683b4a92.png">
+
+with shorter x axis:
+<img width="625" alt="Screenshot 2023-05-05 at 14 34 25" src="https://user-images.githubusercontent.com/38511308/236458718-01a9eefa-b1c7-4dc2-bd31-28637232a206.png">
+
+
+7 used as a min low depth coverage and 16 used as a mean high coverage filter:
+
+```
+vcftools --vcf holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf --minDP 7 --max-meanDP 16 --minGQ 30 --max-missing 0.5 --recode --out holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_cov_filtered
+```
+
+Outputting VCF file...
+After filtering, kept 3,328,622 out of a possible 3,356,291 Sites
+
+
+### Summary of filtering
+```
+Starting VCF   3,502,712  holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz
+With AA field 3,378,040 holi11.SNP.maxmiss50.maf0.03_AA.vcf.gz (-124,672)
+Mappability mask  3,369,431 tmp.vcf (-8,609)
+Repeat mask 3,356,291 holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf (-13,140)
+Coverage mask 3,328,622 holi11.SNP.filtered.AA.tags.vcf (27,669)
+```
+
+clean up:
+```
+mv holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_cov_filtered.recode.vcf holi11.SNP.filtered.AA.vcf
+bgzip holi11.SNP.filtered.AA.vcf
+tabix holi11.SNP.filtered.AA.vcf.gz
+rm tmp.vcf
+rm tmp2.vcf
+rm vcf_header
+rm holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf
+```
+
+Finally, redo the AA liftover and filling of AA tags:
+(in the ancestral_allele_vcf folder):
+```
+cat holi11.SNP.filtered.AA.vcf | ~/programs/vcftools/src/perl/fill-aa -a STAR_AA.final.fa | bgzip -c > holi11.SNP.filtered_actuallywithAA.vcf.gz
+bcftools +fill-tags holi11.SNP.filtered_actuallywithAA.vcf.gz | bgzip -c > holi11.SNP.filtered_actuallywithAA_tags.vcf.gz
+```
 
 #### Step 4:
 Now you need to generate an AA VCF file per population:
@@ -199,7 +284,7 @@ Now you need to generate an AA VCF file per population:
 
 this is done in a submission script, e.g.:
 
-`vcftools --gzvcf holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz --keep ./popmaps/APHP.popmap --recode --recode-INFO-all --out APHP.AA`
+`vcftools --gzvcf holi11.SNP.filtered.AA.tags.vcf --keep ./popmaps/APHP.popmap --recode --recode-INFO-all --out APHP.AA`
 
 then bgzip and tabix all the outputs:
 
