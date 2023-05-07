@@ -24,6 +24,8 @@ VCF files for different analyses:
 - Ballermix: holi11.SNP.maxmiss50_picta_wingei.maf0.03.vcf (3% maf filter, has integrated AA alleles from picta / wingei data (see below)) - 3,378,040
 - Baypass: holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz - 3,502,712
 
+Picta_wingei VCF: holi11.SNP.maxmiss50_picta_wingei.vcf ()
+
 Phased vcfs:
 `/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/phased_vcfs`
 
