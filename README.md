@@ -24,7 +24,6 @@ VCF files for different analyses:
 - Ballermix: holi11.SNP.maxmiss50_picta_wingei.maf0.03.vcf (3% maf filter, has integrated AA alleles from picta / wingei data (see below)) - 3,378,040
 - Baypass: holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz - 3,502,712
 
-Picta_wingei VCF: holi11.SNP.maxmiss50_picta_wingei.vcf ()
 
 Phased vcfs:
 `/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/phased_vcfs`
@@ -33,6 +32,46 @@ Phased vcf for fineStructure (no maf filter): `holi11_vcf_files/phased_vcfs/holi
 
 Phased vcf for relate (no maf filter): `holi11_vcf_files/phased_vcfs/holi11_maxmiss50_nomaf`
 
+
+Also will extract information for all scaffolds > 500,000 bp:
+
+```
+000000F_0.4
+000004F_0.4
+000004F_0.6
+000012F_0.2
+000013F_0.2
+000014F_0.2
+000032F_0.2
+000077F_0  
+000083F_0.2
+000083F_0.3
+000094F_0  
+000095F_0  
+000104F_0  
+000105F_0.1
+000111F_0  
+000113F_0  
+000117F_0  
+000119F_0  
+000122F_0  
+000126F_0  
+000135F_0  
+000140F_0  
+000149F_0  
+000150F_0  
+000151F_0  
+000152F_0  
+000153F_0  
+000154F_0  
+000155F_0
+```
+
+NOTES on chromosome / scaffold rearrangements:
+- For LG12, you need to reorder the contigs. May also need to add in scaffold 149 after Contig XIII:
+<img width="1072" alt="Screenshot 2023-06-07 at 15 36 29" src="https://github.com/josieparis/NFDS/assets/38511308/7577a976-45a8-4114-81e5-38af51a50591">
+
+- For LG20, we may need to add scaffold 94 at the beginning
 -----------
 
 ## Betascan:
