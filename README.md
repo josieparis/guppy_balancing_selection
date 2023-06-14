@@ -211,6 +211,14 @@ I will mask for the following:
 2. high / low coverage regions
 3. repeat regions
 
+Before I started, I included the scaffolds (see top of document) which had also been ancestral allele flipped. They are here:
+
+```/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/scaffold_extraction/scaffolds_holi13.maxmiss50.maf0.03.AA_tags.vcf.gz```
+
+I concatenated the scaffolds with the file above, so the file is now called "concatenated.vcf.gz"
+
+3,457,138 SNPs
+
 ##### Mappability:
 
 the mappability mask is here: `/lustre/home/jrp228/startup/mappability`
@@ -222,75 +230,72 @@ the bed file that made this mask is here also: `kmer_intersect_filtered.bed`
 Mask with bedtools intersect:
 
 ```
-bedtools intersect -a ~/startup/STAR_holi_snp_processing/holi11_vcf_files/holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz -b kmer_intersect_filtered.bed -wa -f 1.0 > ~/startup/STAR_holi_snp_processing/holi11_vcf_files/tmp.vcf
+bedtools intersect -a concatenated.vcf.gz -b kmer_intersect_filtered.bed -wa -f 1.0 > tmp.vcf
 ```
 
-3,369,431 SNPs (was 3,378,040 so 8,609 variants removed)
+3,447,879 SNPs
 
 This VCF then needs to be intersected with high repeat regions removed
 ##### Repeats:
 
 Are here: 
-`/lustre/home/jrp228/startup/current/all_repeats_count_10kb.bed`
+`/lustre/home/jrp228/startup/STAR/STAR_repeats_10kb_percentage.bed`
 
 I copied this file to the holi11_vcf folder
 
-geom_density of repeats:
+<img width="848" alt="Screenshot 2023-06-07 at 19 50 21" src="https://github.com/josieparis/NFDS/assets/38511308/1d327849-960a-4397-b8d9-b5a2149c635e">
 
-<img width="621" alt="Screenshot 2023-05-05 at 14 08 38" src="https://user-images.githubusercontent.com/38511308/236453796-5f5df05f-dccc-4dc6-b6fa-55abefd4f619.png">
+15% repeats used as threshold for high repeat content ...
 
-<img width="619" alt="Screenshot 2023-05-05 at 14 08 56" src="https://user-images.githubusercontent.com/38511308/236453835-78c51029-32d8-4664-b3ae-5685e15e92b1.png">
+I filtered the all_repeats_count_10kb.bed file to those windows with more than 15% repeats 
 
-22 used as threshold for high repeat content ...
+`cat STAR_repeats_10kb_percentage.bed | awk '{if ($5>=15) {print}}' > STAR_repeats_over15%.bed`
 
-I filtered the all_repeats_count_10kb.bed file to those over 22 
-
-all_repeats_count_10kb_over22.bed | wc -l # 369 windows
+STAR_repeats_over15%.bed | wc -l # 4580 windows
 
 The bedtools reverse intersect on this bed file:
-```bedtools intersect -a tmp.vcf -b all_repeats_count_10kb_over22.bed -v > tmp2.vcf```
+```bedtools intersect -a tmp2.vcf -b STAR_repeat_mask.bed -v > tmp3.vcf```
 
+3,246,395
+
+NB:
 get the header:
 
-zgrep "^#" holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz > vcf_header
+zgrep "^#" concatenated.vcf.gz > vcf_header
 
-paste it onto the tmp2 file and rename the VCF
+paste it onto the tmp3 file and rename the VCF
 
-cat vcf_header tmp2.vcf > holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf
-
-3,356,291 SNPs
+cat vcf_header tmp3.vcf > tmp4.vcf
 
 
 ##### Coverage:
 Can be assessed from the VCF file, removing SNPs with coverage lower than and higher than a threshold:
 
-```vcftools --vcf holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf --site-mean-depth --out holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered```
+```vcftools --vcf tmp4.vcf --site-mean-depth --out tmp4```
 
 visualise in geom_density:
 
-<img width="623" alt="Screenshot 2023-05-05 at 14 33 06" src="https://user-images.githubusercontent.com/38511308/236458478-9e28f378-0431-41c9-9218-3867683b4a92.png">
-
-with shorter x axis:
-<img width="625" alt="Screenshot 2023-05-05 at 14 34 25" src="https://user-images.githubusercontent.com/38511308/236458718-01a9eefa-b1c7-4dc2-bd31-28637232a206.png">
+<img width="844" alt="Screenshot 2023-06-12 at 17 48 35" src="https://github.com/josieparis/NFDS/assets/38511308/a149633e-f312-47ab-a40e-1e3767fcaa4a">
 
 
-7 used as a min low depth coverage and 16 used as a mean high coverage filter:
+5 used as a min low depth coverage and 20 used as a mean high coverage filter:
 
 ```
 vcftools --vcf holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf --minDP 7 --max-meanDP 16 --minGQ 30 --max-missing 0.5 --recode --out holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_cov_filtered
 ```
 
 Outputting VCF file...
-After filtering, kept 3,328,622 out of a possible 3,356,291 Sites
+After filtering, kept 3234526 out of a possible 3246395 Sites
 
 
 ### Summary of filtering
 ```
 Starting VCF   3,502,712  holi11.SNP.maxmiss50.maf0.03.recode.vcf.gz
 With AA field 3,378,040 holi11.SNP.maxmiss50.maf0.03_AA.vcf.gz (-124,672)
-Mappability mask  3,369,431 tmp.vcf (-8,609)
-Repeat mask 3,356,291 holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf (-13,140)
-Coverage mask 3,328,622 holi11.SNP.filtered.AA.tags.vcf (27,669)
+With the scaffolds 3,457,138 concatenated.vcf.gz
+Mappability mask  3,447,879 SNPs tmp.vcf
+Repeat mask 3,246,395 tmp3.vcf
+Coverage mask 3,234,526 tmp4.vcf
 ```
 
 clean up:
@@ -359,6 +364,20 @@ Concurrently, run easySFS.py to assess the best sample size to use for the spect
 Note that you have to run these per chromosome as ballermix takes a per chromosome input. Also each chromosome has it's own averaged recombination rate (derived from Jim's Heredity paper)
 
 Note from this post: https://github.com/bioXiaoheng/BalLeRMix/issues/5 that you can use one spectrum file for the whole genome (you don't need one per chromosome), but you need to use the input derived alleles for each chromosome
+
+
+
+---------------------------------------- 
+## Scaffolds analysis
+
+Analysis is inside the folder: `/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/scaffold_extraction`
+
+Number of flipped ancestral alleles:  16,239 (out of 222,532)
+
+AA sites filled  .. 79098
+AA bases filled  .. 79098
+
+
 
 
 ---------------
