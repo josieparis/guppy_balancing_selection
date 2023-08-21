@@ -464,7 +464,23 @@ NB: I checked that these VCF files all have the scaffolds and the AA column for 
 
 Run this for all chromosomes and scaffolds 
 
-### Then we need to format the derived allele counts so that they work for Ballermix. Input should look like this:
+### Then we need to format the derived allele counts so that they work for Ballermix. You can do this in the freqs folder, giving the output to another folder:
+
+`for i in chr*frq; do awk -F "\t|:" '(NR>1) && ($8!='0') && ($3=='2') {OFS="\t"; print$2,$8*$4,$4}' OFMT="%.0f" $i > ../formatted_freqs/$i.derived; done`
+
+This code removes the monomorphic sites (column 8 is 0), makes sure the sites are biallelic (column 2 is 2) and then prints the position column, the allele frequency * the sample size and then the sample size. 
+
+Add the NA column for the physical position:
+`for i in *derived; do awk '{OFS="\t"; {print $1,"NA",$2,$3}}' $i > $i.derived2; done`
+
+`rename .derived.derived2 .derived *derived2`
+
+Add the header line:
+`for i in *derived; do echo -e 'phsPos\tgenPos\tx\tn' >> $i ; done`
+
+make the last line the first line 
+sed -i '1h;1d;$!H;$!d;G' *.derived
+
 
 
 
