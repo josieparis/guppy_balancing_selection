@@ -481,6 +481,16 @@ Add the header line:
 make the last line the first line 
 sed -i '1h;1d;$!H;$!d;G' *.derived
 
+### Start using Ballermix
+
+First, we need to generate the spectrum file for each chromosome, for each pop:
+
+`for i in *derived; do python ~/programs/BalLeRMix_2.2/software/BalLeRMix_v2.5.py -i $i --getSpect --spect ../spect_files/spect.$i.DAF.txt; done`
+
+rename:
+
+`rename .out.frq.derived.DAF.txt .DAF.txt *txt`
+
 
 
 
