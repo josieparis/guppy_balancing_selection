@@ -491,6 +491,24 @@ rename:
 
 `rename .out.frq.derived.DAF.txt .DAF.txt *txt`
 
+#### Now the issue with the sample size still exists ... 
+For now try with highest sample size:
+APHP - 26
+APLP - 24
+ECHP - 34
+ECLP - 36
+GHP - 36
+GLP - 36
+MHP - 38
+MLP - 34
+P - 18 
+TUHP - 32
+TULP - 24
+
+Generate these files as, e.g.: (for each pop)
+
+`for i in chr*_TULP*derived; do awk '{ if ($4 == 24) { print } }' $i > ../highest_sample_size_freqs/$i.samplesize; done`
+
 
 
 
