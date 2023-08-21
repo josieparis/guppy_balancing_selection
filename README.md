@@ -444,7 +444,29 @@ https://github.com/mmatschiner/snapp_prep
 
 `snapp_path=~/programs/snapp_prep`
 
-`
+## Ballermix scans August 2023
+
+### Main vcf file (contigs rearranged and with ancestral alleles):
+
+`/lustre/home/jrp228/startup/STAR_holi_snp_processing/vcf_files_for_analysis/holi11.rearranged.vcf.gz`
+
+### ballermix has to be run on a per chromosome / population basis. The population-specific VCF files are here:
+
+`/lustre/home/jrp228/startup/STAR_holi_snp_processing/vcf_files_for_analysis/pop_specific`
+
+NB: I checked that these VCF files all have the scaffolds and the AA column for calculating the derived allele frequency 
+
+### Then we need to calculate the derived allele frequency across each chromosome in each population:
+
+(There is a script for this, called 01_calc_derived_freqs.sh which is here:
+
+'/lustre/home/jrp228/NERC/people/josie/NFDS_analysis/ballermix_holi11/scripts'
+
+Run this for all chromosomes and scaffolds 
+
+### Then we need to format the derived allele counts so that they work for Ballermix. Input should look like this:
+
+
 
 
 
