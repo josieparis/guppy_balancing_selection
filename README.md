@@ -5,7 +5,9 @@
 #### Authors
 Josephine R Paris, James R Whiting, Joan Ferrer Obiol, Kimberly A Hughes, Bonnie A Fraser
 
-#### Available on bioRxiv: 
+#### Available on bioRxiv: xxx
+
+### Archived under the Zenodo DOI: xxx
 
 ---------
 
