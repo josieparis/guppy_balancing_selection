@@ -1,7 +1,7 @@
 # NFDS-paper
 Thoughts, scripts, analysis  for NFDS balancing selection paper
 
-I am making a new README file to keep all the NFDS information together (out of main lab book). Can also share this with Bonnie.
+I am making a new README file to keep all the NFDS information together (out of main lab book). This is now shared with Bonnie
 
 ---------
 
