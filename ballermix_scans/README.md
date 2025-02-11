@@ -15,3 +15,7 @@ get_spect_maf.sh
 #then run the B2 scan for each population. Here shown just one population
 
 run_ballermix_chrs_APHP_no_win_maf.sh
+
+#windowise the Ballermix outputs to compare to other measures
+
+Windowise_ballermix_B2.R
