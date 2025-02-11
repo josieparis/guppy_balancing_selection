@@ -121,3 +121,47 @@ Now fill the tags with bcftools:
 `bcftools +fill-tags $VCF_AA.vcf.gz | bgzip -c > ${VCF}_AA.tags.vcf.gz`
 
 NB this will fill the tags for the main VCF file, but if you then split by pop (as below in step xx), the AA tag will disappear again, so you need to add it back in below
+
+
+#### Step 4:
+Now you need to generate an AA VCF file per population:
+
+`pops=(APHP APLP MHP MLP P GHP GLP TUHP TULP ECHP ECLP)`
+
+this is done in a submission script, e.g.:
+
+`vcftools --gzvcf holi11.SNP.filtered.AA.tags.vcf --keep ./popmaps/APHP.popmap --recode --recode-INFO-all --out APHP.AA`
+
+then bgzip and tabix all the outputs:
+
+`parallel bgzip {} ::: *.vcf`
+
+`parallel tabix {} ::: *.vcf.gz`
+
+fill the tags:
+
+`for pop in ${pops[@]}; do bcftools +fill-tags ${pop}.AA.recode.vcf.gz | bgzip -c > ${pop}.AA.tags.vcf.gz; done`
+
+Now run the vcftools freq option on each of these (asking for the derived allele) using the script 01_calc_derived_freqs.sh:
+
+```
+## Load modules
+module purge
+module load VCFtools/0.1.16-foss-2018b-Perl-5.28.0
+
+MASTER=/lustre/home/jrp228/NERC/people/josie/NFDS_analysis/ballermix_holi11
+vcf_files=/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/population_vcfs
+freqs=$MASTER/outputs/01_raw_derived_freqs
+
+## Set up the chroms
+#chrs=$(awk '{print $1}' ${reference}.fai | sed "${SLURM_ARRAY_TASK_ID}q;d")
+
+## Set up the pops
+#pops=(APHP APLP MHP MLP P GHP GLP TUHP TULP ECHP ECLP)
+pops=(MLP P GHP GLP TUHP TULP ECHP ECLP)
+
+for pop in ${pops[@]}
+do
+vcftools --gzvcf $vcf_files/${pop}.AA.tags.vcf.gz --chr chr${SLURM_ARRAY_TASK_ID} --freq --derived --out ${freqs}/chr${SLURM_ARRAY_TASK_ID}_${pop}.derived
+done
+```
