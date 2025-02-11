@@ -1,4 +1,4 @@
-## Ballermix scans August 2023
+## Ballermix scans August 2023 (Josie analysis)
 
 ### Main vcf file (contigs rearranged and with ancestral alleles):
 
