@@ -165,3 +165,44 @@ do
 vcftools --gzvcf $vcf_files/${pop}.AA.tags.vcf.gz --chr chr${SLURM_ARRAY_TASK_ID} --freq --derived --out ${freqs}/chr${SLURM_ARRAY_TASK_ID}_${pop}.derived
 done
 ```
+
+
+---------------------------------------- 
+## Scaffolds analysis
+
+
+Also will extract information for all scaffolds > 500,000 bp:
+
+```
+000032F_0.2     707072
+000077F_0       2478161
+000083F_0.3     766951
+000094F_0       1797025
+000095F_0       1773698
+000104F_0       1540729
+000111F_0       1427647
+000113F_0       1367121
+000117F_0       1249272
+000119F_0       1209297
+000122F_0       1109139
+000126F_0       1036673
+000135F_0       847025
+000140F_0       746010
+000149F_0       630695
+000150F_0       611721
+000151F_0       627290
+000152F_0       603738
+000153F_0       586083
+000154F_0       571063
+000155F_0       564286
+
+```
+
+Analysis is inside the folder: `/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/scaffold_extraction`
+
+Number of flipped ancestral alleles:  16,239 (out of 222,532)
+
+AA sites filled  .. 79098
+AA bases filled  .. 79098
+
+
