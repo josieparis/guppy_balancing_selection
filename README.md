@@ -1,11 +1,13 @@
-# NFDS-paper
-Thoughts, scripts, analysis  for NFDS balancing selection paper
+## GitHub repo containing data and scripts pertaining to the article:
 
-I am making a new README file to keep all the NFDS information together (out of main lab book). This is now shared with Bonnie
+### Repeated signatures of balancing selection in small and large populations of guppies (_Poecilia reticulata_)
+
+#### Authors
+Josephine R Paris, James R Whiting, Joan Ferrer Obiol, Kimberly A Hughes, Bonnie A Fraser
 
 ---------
 
-### VCF files for analysis:
+### VCF files used for analysis:
 
 MASTER directory for SNP calling:
 `/lustre/home/jrp228/startup/STAR_holi_snp_processing`
