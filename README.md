@@ -7,7 +7,7 @@ Josephine R Paris, James R Whiting, Joan Ferrer Obiol, Kimberly A Hughes, Bonnie
 
 #### Available on bioRxiv: xxx
 
-### Archived under the Zenodo DOI: xxx
+#### Archived under the Zenodo DOI: xxx
 
 ---------
 
