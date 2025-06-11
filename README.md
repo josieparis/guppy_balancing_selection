@@ -11,3 +11,22 @@ Archived under the Zenodo DOI: xxx
 ![Screenshot 2025-06-10 at 18 21 45](https://github.com/user-attachments/assets/4a97a914-83f1-4d98-8a2a-5b9523e75e8d)
 
 Beautiful guppy drawing &copy; by Erica Robertson
+
+----------------------------------------------------------
+
+Note the population codes differ between the scripts and what is used in the manuscript:
+
+
+| Manuscript population code  | Analysis population code |
+| ------------- | ------------- |
+| GHP  | GD  |
+| GLP | GU  |
+| ECHP  | ED  |
+| ECLP  | EU  |
+| APHP  | AD |
+| APLP  | AU  |
+| TUHP  | TD  |
+| TULP  | TU  |
+| MHP  | MD  |
+| MLP  | MU  |
+| P  | PU  |
