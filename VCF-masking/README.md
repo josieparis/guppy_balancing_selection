@@ -2,7 +2,7 @@
 
 #### NB Matches Supplementary Methods S3
 
-VCF=holi11.SNP.maxmiss50.maf0.03_AA.tags
+`VCF=holi11.SNP.maxmiss50.maf0.03_AA.tags`
 
 I want to mask for the following:
 1) Low mappability
@@ -13,7 +13,7 @@ I want to mask for the following:
 
 The positive mappability mask is STAR.mappability_mask.positive.fasta.gz
 
-map_bed=STAR_mappability_mask.positive.bed
+`map_bed=STAR_mappability_mask.positive.bed`
 
 Mask with bedtools intersect:
 
@@ -23,10 +23,9 @@ bedtools intersect -a ${VCF}.vcf -b STAR_mappability_mask.positive.bed -wa -f 1.
 
 ##### Repeats:
 
-repeat_bed=
-`/lustre/home/jrp228/startup/STAR/STAR_repeats_10kb_percentage.bed`
+`repeat_bed=STAR_repeats_10kb_percentage.bed`
 
-I copied this file to the holi11_vcf folder
+Plot distribution:
 
 <img width="848" alt="Screenshot 2023-06-07 at 19 50 21" src="https://github.com/josieparis/NFDS/assets/38511308/1d327849-960a-4397-b8d9-b5a2149c635e">
 
