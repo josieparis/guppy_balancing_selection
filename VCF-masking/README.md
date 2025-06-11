@@ -9,7 +9,7 @@ I want to mask for the following:
 2) High repeat content
 3) Excess low or high coverage variants
 
-##### Mappability:
+### Mappability:
 
 The positive mappability mask is STAR.mappability_mask.positive.fasta.gz
 
@@ -18,10 +18,10 @@ The positive mappability mask is STAR.mappability_mask.positive.fasta.gz
 Mask with bedtools intersect:
 
 ```
-bedtools intersect -a ${VCF}.vcf -b STAR_mappability_mask.positive.bed -wa -f 1.0 > ${VCF}.mapmasked.vcf
+bedtools intersect -a ${VCF}.vcf -b STAR_mappability_mask.positive.bed -wa -f 1.0 > ${VCF}.mapmask.vcf
 ```
 
-##### Repeats:
+### Repeats:
 
 `repeat_bed=STAR_repeats_10kb_percentage.bed`
 
@@ -29,47 +29,38 @@ Plot distribution:
 
 <img width="848" alt="Screenshot 2023-06-07 at 19 50 21" src="https://github.com/josieparis/NFDS/assets/38511308/1d327849-960a-4397-b8d9-b5a2149c635e">
 
-15% repeats used as threshold for high repeat content ...
+Choose 15% repeats used as threshold for high repeat content
 
-I filtered the all_repeats_count_10kb.bed file to those windows with more than 15% repeats 
+Filter:
 
 `cat STAR_repeats_10kb_percentage.bed | awk '{if ($5>=15) {print}}' > STAR_repeats_over15%.bed`
 
-STAR_repeats_over15%.bed | wc -l # 4580 windows
+`STAR_repeats_over15%.bed | wc -l` # 4580 windows
 
 The bedtools reverse intersect on this bed file:
-```bedtools intersect -a tmp2.vcf -b STAR_repeat_mask.bed -v > tmp3.vcf```
 
-3,246,395
+```
+bedtools intersect -a ${VCF}.mapmask.vcf -b STAR_repeats_over15%.bed -v > ${VCF}.mapmask.repeatmask.vcf
+```
 
-NB:
-get the header:
+### Coverage:
 
-zgrep "^#" concatenated.vcf.gz > vcf_header
+Assessed from the VCF file, removing SNPs with coverage lower than and higher than a threshold:
 
-paste it onto the tmp3 file and rename the VCF
+```
+vcftools --vcf ${VCF}.mapmask.repeatmask.vcf --site-mean-depth --out ${VCF}.mapmask.repeatmask
+```
 
-cat vcf_header tmp3.vcf > tmp4.vcf
-
-
-##### Coverage:
-Can be assessed from the VCF file, removing SNPs with coverage lower than and higher than a threshold:
-
-```vcftools --vcf tmp4.vcf --site-mean-depth --out tmp4```
-
-visualise in geom_density:
+Plot distribution:
 
 <img width="844" alt="Screenshot 2023-06-12 at 17 48 35" src="https://github.com/josieparis/NFDS/assets/38511308/a149633e-f312-47ab-a40e-1e3767fcaa4a">
 
 
-5 used as a min low depth coverage and 20 used as a mean high coverage filter:
+7 used as a min low depth coverage and 20 used as a mean high coverage filter:
 
 ```
-vcftools --vcf holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf --minDP 7 --max-meanDP 16 --minGQ 30 --max-missing 0.5 --recode --out holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_cov_filtered
+vcftools --vcf holi11.SNP.maxmiss50.maf0.03_AA.tags_map_repeat_filtered.vcf --minDP 7 --max-meanDP 20 --minGQ 30 --max-missing 0.5 --recode --out ${VCF}.mapmask.repeatmask.coveragemask
 ```
-
-Outputting VCF file...
-After filtering, kept 3234526 out of a possible 3246395 Sites
 
 
 ### Summary of filtering
