@@ -1,6 +1,9 @@
 ## Directory containing scripts for the Ballermix analysis
 
-#For B2 DAF first get the genome wide spectrum files for all populations
+#For B2 DAF first get the derived allele frequencies:
+
+
+#Then get genome wide spectrum files for all populations
 
 get_spec.sh
 
