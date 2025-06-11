@@ -17,7 +17,7 @@ Beautiful guppy drawing &copy; by Erica Robertson
 Note the population codes differ between the scripts and what is used in the manuscript:
 
 
-| Manuscript population code  | Analysis population code |
+| Analysis population code  | Manuscript population code |
 | ------------- | ------------- |
 | GHP  | GD  |
 | GLP | GU  |
