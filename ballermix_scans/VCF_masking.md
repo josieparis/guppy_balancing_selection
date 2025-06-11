@@ -2,7 +2,7 @@
 
 #### NB Matches Supplementary Methods S3
 
-VCF=holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz
+VCF=holi11.SNP.maxmiss50.maf0.03_AA.tags
 
 I want to mask for the following:
 1) Low mappability
@@ -11,24 +11,19 @@ I want to mask for the following:
 
 ##### Mappability:
 
-the mappability mask is here: `/lustre/home/jrp228/startup/mappability`
+The positive mappability mask is STAR.mappability_mask.positive.fasta.gz
 
-there's a positive fasta (i.e. nucleotides as P pass mappablity, those with N do not): `STAR.mappability_mask.positive.fasta`
-
-the bed file that made this mask is here also: `kmer_intersect_filtered.bed`
+map_bed=STAR_mappability_mask.positive.bed
 
 Mask with bedtools intersect:
 
 ```
-bedtools intersect -a concatenated.vcf.gz -b kmer_intersect_filtered.bed -wa -f 1.0 > tmp.vcf
+bedtools intersect -a ${VCF}.vcf -b STAR_mappability_mask.positive.bed -wa -f 1.0 > ${VCF}.mapmasked.vcf
 ```
 
-3,447,879 SNPs
-
-This VCF then needs to be intersected with high repeat regions removed
 ##### Repeats:
 
-Are here: 
+repeat_bed=
 `/lustre/home/jrp228/startup/STAR/STAR_repeats_10kb_percentage.bed`
 
 I copied this file to the holi11_vcf folder
