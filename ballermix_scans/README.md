@@ -1,5 +1,7 @@
 ## Directory containing scripts for the Ballermix analysis
 
+VCF was masked prior to analysis (check the VCF_masking.md file and Supplementary Methods S3 for details)
+
 #For B2 DAF first get the derived allele frequencies:
 
 get_derived_freq.sh
