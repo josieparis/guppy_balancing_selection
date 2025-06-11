@@ -2,8 +2,9 @@
 
 #For B2 DAF first get the derived allele frequencies:
 
+get_derived_freq.sh
 
-#Then get genome wide spectrum files for all populations
+#then get genome wide spectrum files for all populations
 
 get_spec.sh
 
@@ -11,7 +12,11 @@ get_spec.sh
 
 run_ballermix_chrs_APHP_no_win.sh
 
-#For B2 MAF first get the genome wide spectrum files for all populations
+#For B2 MAF first get the minor allele frequencies:
+
+get_minor_freq.sh
+
+#then get the genome wide spectrum files for all populations
 
 get_spect_maf.sh
 
