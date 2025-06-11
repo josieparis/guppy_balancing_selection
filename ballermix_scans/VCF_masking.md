@@ -1,17 +1,13 @@
-I now want to mask the VCF file: holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz
+### VCF filtering prior to scans of balancing selection
 
-I will mask for the following:
-1. mappability mask
-2. high / low coverage regions
-3. repeat regions
+#### NB Matches Supplementary Methods S3
 
-Before I started, I included the scaffolds (see top of document) which had also been ancestral allele flipped. They are here:
+VCF=holi11.SNP.maxmiss50.maf0.03_AA.tags.vcf.gz
 
-```/lustre/home/jrp228/startup/STAR_holi_snp_processing/holi11_vcf_files/scaffold_extraction/scaffolds_holi13.maxmiss50.maf0.03.AA_tags.vcf.gz```
-
-I concatenated the scaffolds with the file above, so the file is now called "concatenated.vcf.gz"
-
-3,457,138 SNPs
+I want to mask for the following:
+1) Low mappability
+2) High repeat content
+3) Excess low or high coverage variants
 
 ##### Mappability:
 
