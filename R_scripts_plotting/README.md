@@ -16,3 +16,21 @@ Figure 3:
 
 Figure 4:
 - Fig4_LG22_candidate_region.R
+
+Population colours:
+
+```
+pop_cols <- c(
+  GD = "#3B2778",
+  GU = "#9772C3",
+  ED = "#F4B740",
+  EU = "#D7AD7F",
+  AD = "#5F7F3C",
+  AU = "#C6D573",
+  TD = "#1D4A8A",
+  TU = "#5F84B2",
+  MD = "#9D2919",
+  MU = "#BE261B",
+  PU = "#CB6078"
+)
+```
