@@ -1,10 +1,12 @@
-## Directory containing all R scripts used for plotting:
+## Directory containing R scripts used for plotting
+
+### Main Figures
 
 Figure 1:
-- panel a (Fig1_rivers.R) - done
-- panel b (Fig1_PCA.R) - done 
-- panel c (Fig1_PCA.R) - done 
-- panel d (Fig1_FST_matrix.R) - TBC
+- panel a (Fig1_rivers.R)
+- panel b (Fig1_PCA.R)
+- panel c (Fig1_PCA.R) 
+- panel d (Fig1_FST_matrix.R)
 - panel e (Fig1_finestructure.R) - using scripts provided by fineStructure (https://people.maths.bris.ac.uk/~madjl/finestructure/finestructureR.html)
 
 Figure 2:
