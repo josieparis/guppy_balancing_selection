@@ -27,4 +27,4 @@ GHP_plot <- ggplot(data_filtered, aes(x = mean_het)) +
         axis.text.x=element_text(size=6,family="Times"),
         axis.title=element_text(size=16,family="Times"))
 
-ggsave("../figs/MLP_theta_windows.png", GHP_plot, width = 4.2, height = 4, units="cm",dpi = 400)
+ggsave("../figs/MHP_het_distribution.png", GHP_plot, width = 4.2, height = 4, units="cm",dpi = 400)
