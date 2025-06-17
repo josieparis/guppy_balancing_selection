@@ -13,5 +13,5 @@
 
 #### Betascan results (per SNP):
 
-- 
+- ALL_${pop}_betascan_out.txt.gz
 
