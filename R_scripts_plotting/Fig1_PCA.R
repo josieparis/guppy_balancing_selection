@@ -7,7 +7,7 @@ graphics.off() #close all figures
 lib<-c("ggplot2","gridExtra","grid","extrafont")
 lapply(lib,library,character.only=T)
 
-setwd("~/Dropbox/Sussex_Guppies/Analyses/NFDS_analysis/pop_structure/")
+setwd("<dir>/Analyses/NFDS_analysis/pop_structure/")
 
 ## eigenvec_table
 eigenvec_table <- read.table('./data/holi_11_plink_out_NoLD_PCA.eigenvec', header = FALSE)
