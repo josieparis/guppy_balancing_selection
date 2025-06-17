@@ -7,7 +7,7 @@ graphics.off() #close all figures
 lib<-c("cowplot","ggplot2","data.table","viridis","patchwork","sf","ggpubr","raster")
 lapply(lib,library,character.only=T)
 
-setwd("~/Dropbox/Sussex_Guppies/Analyses/NFDS_analysis/map/")
+setwd("<dir>/Analyses/NFDS_analysis/map/")
 
 # Read in the shape file
 trinidad <- st_read(dsn = "tto_adm0/TTO_adm0.shp")
