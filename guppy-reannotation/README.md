@@ -1,4 +1,4 @@
-## Guppy annotation files
+## Guppy genome annotation files
 
 ### gff3 file
 STAR_annot_v2.braker3.gff3
