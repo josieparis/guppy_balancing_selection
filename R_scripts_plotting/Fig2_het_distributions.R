@@ -6,7 +6,7 @@ graphics.off() #close all figures
 lib<-c("dplyr","ggplot2", "cowplot", "ggrepel", "gridExtra","tidyverse")
 lapply(lib,library,character.only=T)
 
-setwd("~/Dropbox/Sussex_Guppies/Analyses/NFDS_analysis/popgen_stats/")
+setwd("<dir>/Analyses/NFDS_analysis/popgen_stats/")
 
 data <- read.csv("data/ALL_het_50k_winds.txt",h=T,sep=" ")  
 
