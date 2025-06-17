@@ -7,7 +7,7 @@ lib<-c("dplyr","ggplot2", "cowplot", "ggrepel", "gridExtra","tidyverse")
 lapply(lib,library,character.only=T)
 
 ## working dir
-setwd("~/Dropbox/Sussex_Guppies/Analyses/NFDS_analysis/popgen_stats/")
+setwd("<dir>/Analyses/NFDS_analysis/popgen_stats/")
 
 # Read in your data
 data <- read.csv("data/ALL_het_50k_winds.txt",h=T,sep=" ")  
@@ -38,20 +38,20 @@ ED <- c("#F4B740")
 EU <- c("#D7AD7F")
 
 
-# Filter for only chromosomes with "chr" prefix
-PLP_data <- PLP_data %>%
+## Filter for only chromosomes with "chr" prefix
+GHP_data <- GHP_data %>%
   filter(grepl("^chr", chrom)) %>%
   filter(!is.na(mean_het))
 
-# Order chromosomes numerically
-PLP_data$chrom <- factor(PLP_data$chrom, 
+## Order chromosomes numerically
+GHP_data$chrom <- factor(GHP_data$chrom, 
                          levels = paste0("chr", 1:23))
 
-# Create a new variable for window positions within each chromosome
-PLP_data$window_position <- as.numeric(factor(PLP_data$window))
+## create window positions within each chromosome
+GHP_data$window_position <- as.numeric(factor(GHP_data$window))
 
 
-# GHP plot
+## GHP plot
 GHP_plot <- ggplot(GHP_data, aes(x = chrom, y = mean_het, group = window_position)) +
   geom_bar(stat = "identity", position = "dodge", width = 0.9, fill = "#3B2778") +  # Bars for heterozygosity
   theme_bw() +
