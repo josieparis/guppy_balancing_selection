@@ -7,10 +7,10 @@ graphics.off() #close all figures
 lib<-c("dplyr","ggplot2","tidyverse","forcats")
 lapply(lib,library,character.only=T)
 
-setwd("~/Dropbox/Sussex_Guppies/Analyses/NFDS_analysis/heatmap_B2_outliers/")
+setwd("<dir>/Analyses/NFDS_analysis/heatmap_B2_outliers/")
 
 ## read in B2 results for all chromosomes 
-B2 <- read.csv("~/Dropbox/Sussex_Guppies/Analyses/NFDS_analysis/Ballermix_bonnie_results/merged_ALL_data_50kb_no_up.txt",sep="\t",h=T)
+B2 <- read.csv("<dir>/Analyses/NFDS_analysis/Ballermix_results/merged_ALL_data_50kb_DAF.txt",sep="\t",h=T)
 
 outliers <- read.csv("outlier_IDs_23_windows.txt",h=T,sep="\t")
 
@@ -22,7 +22,7 @@ pops <- c("GHP", "GLP", "ECHP", "ECLP", "APHP", "APLP", "TUHP", "TULP", "MHP", "
 pop_rename <- c("GD", "GU", "ED", "EU", "AD", "AU", "TD", "TU", "MD", "MU", "PU")
 pop_map <- setNames(pop_rename, pops)
 
-# make it long 
+## make it long 
 logS_long <- B2_filtered %>%
   # Ensure all logS columns are numeric
   mutate(across(matches("_logS$"), ~ as.numeric(.))) %>%
