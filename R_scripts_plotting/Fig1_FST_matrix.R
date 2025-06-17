@@ -7,7 +7,7 @@ graphics.off() #close all figures
 lib<-c("dplyr","ggplot2","tidyverse","viridis")
 lapply(lib,library,character.only=T)
 
-setwd("~/Dropbox/Sussex_Guppies/Analyses/NFDS_analysis/pop_structure")
+setwd("<dir>/Analyses/NFDS_analysis/pop_structure")
 
 fst <- read_tsv("pairwise_FST_matrix_R.tsv")
 fst$pop1 <- factor(fst$pop1,levels=c("EU","ED","GD","GU","TD","TU","AD","AU",
