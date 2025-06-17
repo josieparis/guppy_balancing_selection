@@ -6,6 +6,9 @@
 
 Available on bioRxiv: xxx
 
+<img width="159" alt="Screenshot 2025-06-17 at 15 56 31" src="https://github.com/user-attachments/assets/8a9b6ef7-4d1a-40fd-bbed-44e8f61d964f" />
+
+
 Archived under the Zenodo DOI: xxx
 
 ![Screenshot 2025-06-10 at 18 21 45](https://github.com/user-attachments/assets/4a97a914-83f1-4d98-8a2a-5b9523e75e8d)
