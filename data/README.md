@@ -6,6 +6,10 @@
 - Pi (ALL.50kb.pi.popgenome.out.gz)
 - Tajima's D (ALL.50kb.td.popgenome.out.gz)
 
+#### Heterozygosity results in 50kb windows:
+
+- ALL_het_50k_winds.txt.gz
+
 #### Ballermix results in 50kb windows:
 
 - derived allele frequency (B2_DAF_merged_ALL_data_50kb.txt.gz)
