@@ -1,4 +1,4 @@
-### Data used for analysis
+### Main data files used for analysis
 
 #### Popgenome results in 50kb windows:
 
