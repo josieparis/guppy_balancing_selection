@@ -9,7 +9,7 @@ lapply(lib,library,character.only=T)
 
 #detach("package:plyr", unload = TRUE)
 
-setwd("~/Dropbox/Sussex_Guppies/Analyses/NFDS_analysis/candidate_loci_2025/data/")
+setwd("<dir>/Analyses/NFDS_analysis/candidate_loci/data/")
 
 ## define pop order and rename
 pop_order <- c("GHP", "GLP", "ECHP", "ECLP", "APHP", "APLP", "TUHP", "TULP", "MHP", "MLP", "P")
