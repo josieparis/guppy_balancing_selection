@@ -4,7 +4,7 @@
 
 #### Josephine R Paris, James R Whiting, Joan Ferrer Obiol, Kimberly A Hughes, Bonnie A Fraser
 
-Available on bioRxiv: xxx
+Available on bioRxiv: https://doi.org/10.1101/2025.06.12.659363 
 
 <img width="159" alt="Screenshot 2025-06-17 at 15 56 31" src="https://github.com/user-attachments/assets/8a9b6ef7-4d1a-40fd-bbed-44e8f61d964f" />
 
