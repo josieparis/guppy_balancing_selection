@@ -25,6 +25,7 @@ vcftools --vcf ${VCF}.vcf --site-mean-depth --out ${VCF}.depth.sites
 ```
 vcftools --vcf ${VCF}.vcf --min-alleles 2 --max-alleles 2 \
 --minGQ 30 --minDP 3 --max-meanDP 80 --max-missing 0.8 \
+--min-mac 3 \
 --remove $popmap \
 --recode --recode-INFO-all --out ${VCF}.filtered
 ```
