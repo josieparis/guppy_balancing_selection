@@ -50,7 +50,7 @@ Script 2: 02_finestructure_convert_shapeit2chromo.sh
 
 module load Perl/5.28.0-GCCcore-7.3.0
 
-MASTER=/lustre/home/jrp228/NERC/people/josie/NFDS_analysis/pop_structure/finestructure
+MASTER=<dir>/NERC/people/josie/NFDS_analysis/pop_structure/finestructure
 DATASET=holi11
 
 # Phased chromosomes can be cat together to give full dataset
