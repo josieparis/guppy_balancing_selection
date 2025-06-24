@@ -8,15 +8,15 @@ Sanity check:
 
 1. Check for individual level missingness in the VCF:
 
-vcftools --vcf ${VCF}.vcf --missing-indv --out ${VCF}.missingness
+`vcftools --vcf ${VCF}.vcf --missing-indv --out ${VCF}.missingness`
 
 2. Check for coverage:
 
-vcftools --vcf ${VCF}.vcf --depth --out ${VCF}.depth.individuals
+`vcftools --vcf ${VCF}.vcf --depth --out ${VCF}.depth.individuals`
 
 3. Check for depth across sites:
 
-vcftools --vcf ${VCF}.vcf --site-mean-depth --out ${VCF}.depth.sites
+`vcftools --vcf ${VCF}.vcf --site-mean-depth --out ${VCF}.depth.sites`
 
 #### plot all of the above and choose thresholds
 
