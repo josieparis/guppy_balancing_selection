@@ -81,7 +81,7 @@ FINE_S=<dir>/programs/finestructure_4.1.1
 DATASET="holi11"
 
 # I have added this so that the libgsl.so.0 symlink is in the library path. Links to ~./linuxbrew/libs/libgsl.so
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/lustre/home/jrp228/programs/finestructure_4.1.1
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<dir>/programs/finestructure_4.1.1
 
 # Load modules
 module load GLib/2.53.5-GCCcore-6.4.0
