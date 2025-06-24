@@ -16,7 +16,7 @@ NB a new (and recommended) version of this script is available at https://github
 
 NB needs python2 and scipy
 
-`VCF=/holi11.SNP.maxmiss50_picta_wingei.vcf`
+`VCF=<dir>/holi11.SNP.maxmiss50_picta_wingei.vcf`
 
 NB the vcf file has to be uncompressed otherwise you will get an error message  
 
